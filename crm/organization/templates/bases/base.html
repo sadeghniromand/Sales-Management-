@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        Home
+        {% endblock %}
+    </title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/all.min.css' %}" rel="stylesheet">
+    <style>
+        html,body{
+            height: 100%;
+            overflow: auto;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container-fluid" style="height: 100%">
+
+<div class="row" style="height: 100%;">
+    <div class=" col" style="float: right">
+        <div class="justify-content-center align-items-center text-center" ><h1 style="background-color: #212529 !important ; color: #0a53be;padding-bottom: 15px">شرکت</h1></div>
+        {% block body %}
+
+        {% endblock %}
+    </div>
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark row text-end" style="width: 250px;height: 100%;float: right">
+<a class="d-flex align-items-center text-decoration-none ">mark</a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto ">
+        <li class="nav-item">
+            <a href="{% url 'home' %}" class="nav-link text-decoration-none">صفحه اصلی</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li>
+            <a href="{% url 'organization:list-organ' %}" class="nav-link text-decoration-none">شرکت ها</a>
+        </li>
+        <li>
+            <a href="{% url 'product:list-product' %}" class="nav-link text-decoration-none">محصولات</a>
+        </li>
+        <li>
+            <a href="{% url 'sale:list-quote' %}" class="nav-link text-decoration-none">فروش</a>
+        </li>
+            <li>
+            <a href="{% url 'admin:index' %}" class="nav-link text-decoration-none">admin</a>
+            </li>
+        {% endif %}
+        {% if not user.is_authenticated  %}
+        <li>
+            <a href="{% url 'admin:login' %}" class="nav-link text-decoration-none">Login</a>
+        </li>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <li>
+            <a href="{% url 'admin:logout' %}" class="nav-link text-decoration-none">Logout</a>
+        </li>
+        {% endif %}
+    </ul>
+  </div>
+
+</div>
+</div>
+</body>
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+{% block js %}
+
+{% endblock %}
+</html>

@@ -1,0 +1,31 @@
+{% extends 'bases/organization_base.html' %}
+{% load widget_tweaks %}
+{% block inbody %}
+    <div class="container">
+        <div class="container">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_title">: موضوع گزارش کار</label>
+                        {{ form.title|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_status">وضعیت پیگیری:</label>
+                        {{ form.status|add_class:"form-select form-select-lg mb-3" }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_description">گزارش کار:</label>
+                        {{ form.description|add_class:"form-control" }}
+                    </div>
+                </div>
+            <button type="submit" class="btn btn-primary">save</button>
+    </form>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'bases/organization_base.html' %}
+{% load widget_tweaks %}
+{% load tags %}
+{% block inbody %}
+    <div class="container">
+        {% if object.user == request.user %}<button class="btn btn-light" style="margin: 10px"><a href="{% url 'organization:update-organ' object.id %}"> ویرایش</a></button>{% endif %}
+        <button class="btn btn-light" style="margin: 10px"><a href="{% url 'sale:create-quote' %}">  صدور پیش فاکتور</a></button>
+        <div class="container" style="border: 1px solid">
+            <div class="row justify-content-start" style="margin-top: 10px">
+                <div class="text-center"><h4> اطلاعات شرکت </h4></div>
+                <div class="col-4 text-end" style="float: right">
+                    : تعداد کارگر
+                    <div style="border: 2px solid lightblue">{{ object.number_of_worker }}</div>
+                </div>
+                <div class="col-4 text-end" style="float: right">
+                    : شماره تلفن شرکت
+                    <div style="border: 2px solid lightblue">{{ object.company_phone }}</div>
+                </div>
+                <div class="col-4 text-end" style="float: right">
+                    : نام شرکت
+                    <div style="border: 2px solid lightblue">{{ object.company_name }}</div>
+                </div>
+            </div>
+            <div class="row justify-content-start" style="margin: 10px">
+                <div class="col-7 text-end">
+                    : آدرس شرکت
+                    <br><div style="border: 2px solid lightblue">{{ object.company_address }}</div>
+                </div>
+                <div class="col-2 text-end">
+                    : استان شرکت
+                    <br><div style="border: 2px solid lightblue">{{ object.province }}</div>
+                </div>
+                <div class="col-3 text-end">
+                    : تاریخ ثبت
+                    <br><div class="text-start" style="border: 2px solid lightblue">{{ object.company_registration_date|format_date }}</div>
+                </div>
+            </div>
+            <div class="row justify-content-start" style="margin: 10px; border: 3px solid lightgrey">
+                <div class="text-center"><h5> اطلاعات مخاطب </h5></div>
+                <div class="col-4 text-end">
+                    : پست الکترونیک
+                    <br><div style="border: 2px solid lightblue">{{ object.email }}</div>
+                </div>
+                <div class="col-4 text-end">
+                    : شماره موبایل
+                    <br><div style="border: 2px solid lightblue">{{ object.mobile_phone }}</div>
+                </div>
+                <div class="col-4 text-end" style="margin-bottom: 5px">
+                    : نام و نام خانوادگی
+                    <br><div style="border: 2px solid lightblue">{{ object.name }}</div>
+                </div>
+            </div>
+            <div class="row justify-content-start" style="margin: 10px">
+                <div class="col-6 text-end">
+                    : محصولات پیشنهادی ما
+                    <br><div style="height: 100px;overflow: auto;border: 3px solid lightblue">
+                    {% for product in product %}
+                        {{ product }}<br>
+                    {% endfor %}
+                </div>
+                </div>
+                <div class="col-6 text-end">
+                    : محصولات تولیدی
+                    <br><div style="height: 100px;overflow: auto;border: 3px solid lightblue">
+                    {% for product in object.product.all %}
+                        {{ product.name }}
+                    {% endfor %}
+                </div>
+                </div>
+            </div>
+            <div class="row" style="margin: 15px;border: 3px solid darkblue">
+                <div class="container">
+                <div class="text-center"><h5> پیگیری ها </h5></div>
+                <table class="table">
+                     <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">کاربر</th>
+                          <th scope="col">تاریخ شروع</th>
+                          <th scope="col">تاریخ اخرین تغییرات</th>
+                          <th scope="col">وضعیت</th>
+                          <th scope="col">گزارش</th>
+                        </tr>
+                      </thead>
+                     <tbody>
+                     {% for descrip in object.followup_set.all %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ descrip.user }}</td>
+                            <td>{{ descrip.date }}</td>
+                            <td>{{ descrip.last_data }}</td>
+                            <td>{{ descrip.get_status_display }}</td>
+                            <td><a href="{% url 'organization:update-followup' descrip.id %}"> گزارش </a></td>
+                        </tr>
+                     {% empty %}
+                         <tr>
+                        <td colspan="6" class="text-center">.گزارشی ثبت نشده</td>
+                        </tr>
+                     {% endfor %}
+                     </tbody>
+                </table>
+                <div class="align-items-end" style="float:right;"><button class="btn btn-primary "><a href="{% url 'organization:create-followup' object.id %}" style="color: black"> ایجاد گزارش </a> </button> </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

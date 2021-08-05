@@ -1,0 +1,59 @@
+{% extends 'bases/product_base.html' %}
+{% load widget_tweaks %}
+{% block inbody %}
+<div class="container">
+    <div class="container">
+        <div>
+            {% if form.errors %}
+                {{ form.errors }}
+            {% endif %}
+        </div>
+    <form method="post" enctype="multipart/form-data" style="margin-top: 15px">
+        {% csrf_token %}
+        <div class="mb-3">
+        <div class="form-group">
+            <label for="id_name" style="float: right">: نام محصول</label>
+            {{ form.name|add_class:"form-control" }}
+        </div>
+        </div>
+        <div class="mb-3">
+        <div class="form-group">
+            <label for="id_price" style="float: right">: قیمت محصول</label>
+            {{ form.price|add_class:"form-control" }}
+        </div>
+        </div>
+        <div class="mb-3">
+        <div class="form-group">
+            <label for="id_is_taxation" style="float: right">: مالیات</label>
+            {{ form.is_taxation|add_class:"form-check-input" }}
+        </div>
+        </div>
+        <div class="mb-3">
+        <div class="form-group">
+            <label for="id_pdf_catalog" style="float: right">: فایل pdf کاتالوگ</label>
+            {{ form.pdf_catalog|add_class:"form-control" }}
+        </div>
+        </div>
+        <div class="mb-3">
+        <div class="form-group">
+            <label for="id_img_catalog" style="float: right">: فایل img کاتالوگ</label>
+            {{ form.img_catalog|add_class:"form-control" }}
+        </div>
+        </div>
+        <div class="mb-3">
+        <div class="form-group">
+            <label for="id_description" style="float: right">: ویژگی دستگاه</label>
+            {{ form.description|add_class:"form-control" }}
+        </div>
+        </div>
+        <div class="mb-3">
+        <div class="form-group">
+            <label for="id_can_be_used_for" style="float: right">: محصولات قابل استفاده</label>
+            {{ form.can_be_used_for|add_class:"form-control" }}
+        </div>
+        </div>
+        <button class="btn btn-primary rounded" type="submit">ذخیره</button>
+    </form>
+        </div>
+</div>
+{% endblock %}

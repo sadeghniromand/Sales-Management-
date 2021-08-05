@@ -1,0 +1,43 @@
+{% extends 'bases/product_base.html' %}
+{% block inbody %}
+<div class="container-fluid">
+{#    <div >#}
+        <div class="container" >
+            <div class="row justify-content-end">
+                {% for obj in object  %}
+                    <div class="card text-end shadow-lg p-3 mb-5 bg-white rounded col-4" style="width: 18rem; margin: 20px">
+                          <img class="card-img-top" src="{{ obj.img_catalog.url }}" alt="Card image cap">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ obj.name }}</h5>
+                            <p class="card-text"  style="height: 80px;overflow: auto">{{ obj.description }}</p>
+                          </div>
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{ obj.price }} ریال </li>
+                            <li class="list-group-item">
+
+                                 {% if obj.is_taxation %}
+                                     <i class="fa fa-check"></i>
+                                 {% else %}
+                                    <i class="fa fa-times"></i>
+                                 {% endif %}
+                            : مالیات</li>
+                            <li class="list-group-item" style="height: 50px;overflow: auto">
+                                {% for product in obj.product_suggestion.all %}
+                                    {{ product.name }}
+                                {% empty %}
+                                    محصولی انتخاب نشده است
+                                {% endfor %}
+                            </li>
+                          </ul>
+                          <div class="card-body">
+                            <a href="{{ obj.img_catalog.url }}" class="card-link">عکس کاتالوگ</a>
+                            <a href="{{ obj.pdf_catalog.url }}" class="card-link">pdf کاتالوگ </a>
+                          </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+{#    </div>#}
+</div>
+{% endblock %}

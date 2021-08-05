@@ -1,0 +1,67 @@
+{% extends 'bases/organization_base.html' %}
+{% load widget_tweaks %}
+{% block inbody %}
+    <div class="container">
+        <div class="container">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_company_name" style="float: right">: نام شرکت</label>
+                        {{ form.company_name|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_company_phone" style="float: right">: تلفن شرکت</label>
+                        {{ form.company_phone|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_number_of_worker" style="float: right">: تعداد کارگر شرکت</label>
+                        {{ form.number_of_worker|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_province" style="float: right">: استان</label>
+                        {{ form.province|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_company_address" style="float: right">: آدرس</label>
+                        {{ form.company_address|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_product" style="float: right">: محصولات تولیدی</label>
+                        {{ form.product|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_name" style="float: right">: نام و نام خانوادگی رابط</label>
+                        {{ form.name|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_mobile_phone" style="float: right">: شماره تلفن رابط</label>
+                        {{ form.mobile_phone|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="id_email" style="float: right">: پست الکترونیک</label>
+                        {{ form.email|add_class:"form-control" }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary rounded-3">ثبت</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

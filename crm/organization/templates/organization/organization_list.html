@@ -1,0 +1,30 @@
+{% extends 'bases/organization_base.html' %}
+{% block inbody %}
+    <div class="container" style="margin-top: 40px">
+        <div class="row">
+            {% for comp in object %}
+            <div class="card col-3 text-end shadow p-3 mb-5 bg-white rounded" style="margin: 10px">
+              <div class="card-header">
+
+                 : شرکت
+                    <br>
+                  {{ comp.company_name }}
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                 : استان
+                    <br>
+                    {{ comp.province }}
+
+                </li>
+                <li class="list-group-item">
+                    : رابط
+                    <br>
+                    {{ comp.name }}</li>
+                <li class="list-group-item"><a href="{% url 'organization:detail-organ' comp.id %}"> مشخصات کامل </a></li>
+              </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

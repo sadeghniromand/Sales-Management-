@@ -1,0 +1,16 @@
+{% extends 'bases/product_base.html' %}
+{% block inbody %}
+    <div class="row justify-content-end ">
+    <div class="col-5" >
+    <ul >
+        {% for obj in object %}
+            <li>{{ obj.name }}</li>
+        {% endfor %}
+    </ul>
+
+    </div>
+    <div class="col-5">
+        search
+    </div>
+    </div>
+{% endblock %}

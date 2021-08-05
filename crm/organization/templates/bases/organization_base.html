@@ -1,0 +1,26 @@
+{% extends 'bases/base.html' %}
+{% block body %}
+    <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+  <ul class="navbar-nav mr-auto">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'organization:list-organ' %}">لیست شرکت ها</a>
+      </li>
+    <li class="nav-item ">
+        <a class="nav-link" href="{% url 'organization:create-organ' %}">ثبت شرکت</a>
+      </li>
+  </ul>
+  {% if request.path == "/organization/list/" %}
+    <form class="d-flex">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  {% endif %}
+  </div>
+</nav>
+
+    {% block inbody %}
+    {% endblock %}
+    </div>
+{% endblock %}

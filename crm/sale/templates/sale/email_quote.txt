@@ -1,0 +1,13 @@
+
+پیش فاکتور محصولات در نظر گرفته شده
+شرکت:{{ object.organization.company_name }}
+کار بر ارسال کننده:  {{ object.user }}
+
+
+
+{% for quote in object.quoteitem_set.all %}
+نام کالا:{{ quote.product.name }}
+{{ quote.price }} :قیمت
+{{ quote.qty }} :تعداد
+{% endfor %}
+

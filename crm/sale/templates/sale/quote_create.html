@@ -1,0 +1,27 @@
+{% extends 'bases/base.html' %}
+{% block body %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="organization">Organization</label>
+        <select class="choices form-select"
+                name="organization" id="organization">
+            <optgroup label="Organization">
+                {% for organization in oragn %}
+                    <option value="{{ organization.id }}">{{ organization }}</option>
+                {% endfor %}
+            </optgroup>
+        </select>
+{#        {{ quote }}#}
+    {{ formset.management_form }}
+    {% for form in formset %}
+{#        {{ formset.as_ul }}#}
+    {% endfor %}
+    {{ form }}
+        <button type="submit">send</button>
+    </form>
+
+{% endblock %}
+{% block js %}
+    <script>
+    </script>
+{% endblock %}

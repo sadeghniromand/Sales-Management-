@@ -1,0 +1,21 @@
+{% extends 'bases/product_base.html' %}
+{% load widget_tweaks %}
+{% block inbody %}
+<div class="container">
+    <div class="container" style="margin-top: 30px">
+        <form method="post">
+        {% csrf_token %}
+                <div class="col-9">
+            <div class="form-group">
+            {{ form.name.label_tag }}
+            {{ form.name|add_class:"form-control" }}
+                </div>
+                    </div>
+
+            <button type="submit" class="btn btn-primary rounded">ذخیره</button>
+
+
+        </form>
+    </div>
+</div>
+{% endblock %}

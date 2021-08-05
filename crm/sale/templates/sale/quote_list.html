@@ -1,0 +1,36 @@
+{% extends 'bases/sale_base.html' %}
+{% load tags %}
+{% block inbody %}
+
+
+    <div class="container">
+        <table class="table" style="margin-top: 20px">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">تاریخ</th>
+              <th scope="col">شرکت</th>
+              <th scope="col">کاربر</th>
+              <th scope="col">سفارش ها</th>
+              <th scope="col">عملیات</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for quote in object %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ quote.data|format_date }}</td>
+              <td>{{ quote.organization.company_name }}</td>
+              <td>{{ quote.user }}</td>
+              <td><a href="{% url 'sale:detail-quote' quote.id %}"><i class="fa fa-clipboard-list"></i></a> </td>
+              <td><a href="{% url 'sale:detail-pdf-quote' quote.id%}"><i class="fa fa-file-pdf"></i></a> <a href="{% url 'sale:send-email' quote.id %}"><i class="fa fa-envelope"></i></a> </td>
+            </tr>
+          {% empty %}
+              <td colspan="6">موردی یافت نشد</td>
+          {% endfor %}
+          </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}
