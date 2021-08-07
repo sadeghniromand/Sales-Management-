@@ -19,3 +19,8 @@ class FollowUpAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return True
         return False
+
+
+@admin.register(models.EmailHistory)
+class EmailHistoryAdmin(admin.ModelAdmin):
+    list_display = ['date_send', 'creator', 'success']
