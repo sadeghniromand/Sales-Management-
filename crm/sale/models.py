@@ -7,12 +7,15 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Quote(models.Model):
-    # def __init__(self,*args,**kwargs):
-    #     super().__init__(*args,**kwargs)
-
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name=_("کاربر ثبت کننده"))
     organization = models.ForeignKey('organization.Organization', on_delete=models.CASCADE, verbose_name=_("سازمان"))
     data = models.DateField(auto_now_add=True, verbose_name=_("تاریخ سفارش"))
+
+    def total_all_product_price(self):
+        sum = 0
+        for item in self.quoteitem_set.all():
+            sum += item.finished_price()
+        return sum
 
 
 class QuoteItem(models.Model):
@@ -46,7 +49,7 @@ class QuoteItem(models.Model):
 
 
 class EmailHistory(models.Model):
-    date_send = models.DateField(verbose_name=_("تاریخ ارسال"),auto_now_add=True)
+    date_send = models.DateField(verbose_name=_("تاریخ ارسال"), auto_now_add=True)
     creator = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, verbose_name=_("فرستنده"))
     success = models.BooleanField(verbose_name=_("نتیجه"))
     email = models.EmailField(verbose_name=_("پست الکترونیک"))
