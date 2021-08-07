@@ -19,6 +19,16 @@
               {% endif %}
           </div>
         </nav>
+    <div class="bg-info">
+                    {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info alert-dismissible">
+                        {{ message }}
+{#                        <button type="button" data-dismiss="alert" class="close">&times;</button>#}
+                    </div>
+                {% endfor %}
+            {% endif %}
+    </div>
     {% block inbody %}
     {% endblock %}
     </div>

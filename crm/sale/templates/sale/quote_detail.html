@@ -65,6 +65,13 @@
                 </tr>
             {% endfor %}
             </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="row">#</th>
+                    <td colspan="6">مجموع</td>
+                    <td>{{ object.total_all_product_price }}</td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>

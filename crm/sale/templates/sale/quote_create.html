@@ -1,5 +1,10 @@
-{% extends 'bases/base.html' %}
-{% block body %}
+{% extends 'bases/sale_base.html' %}
+{% load widget_tweaks %}
+{% block title %}
+    ایجاد پیش فاکتور
+{% endblock %}
+{% block inbody %}
+    <div class="container">
     <form method="post">
         {% csrf_token %}
         <label for="organization">Organization</label>
@@ -11,17 +16,66 @@
                 {% endfor %}
             </optgroup>
         </select>
-{#        {{ quote }}#}
-    {{ formset.management_form }}
-    {% for form in formset %}
-{#        {{ formset.as_ul }}#}
-    {% endfor %}
-    {{ form }}
+{{ formset.management_form }}
+{% for form in formset.forms %}
+    <div class='table'>
+    <table class='no_error'>
+        <div class="row">
+        <div class="col-3 mb-3">
+        <div class="form-group">
+            {{ form.product.label_tag }}
+            {{ form.product|add_class:"form-control" }}
+             </div>
+            </div>
+        <div class="col-3 mb-3">
+        <div class="form-group">
+            {{ form.qty.label_tag }}
+            {{ form.qty|add_class:"form-control" }}
+             </div>
+        </div>
+            <div class="col-3 mb-3">
+        <div class="form-group">
+            {{ form.discount.label_tag }}
+            {{ form.discount|add_class:"form-control" }}
+             </div>
+            </div>
+                       <div class="col-3 mb-3">
+        <div class="form-group">
+            {{ form.DELETE.label_tag }}
+            {{ form.DELETE }}
+             </div>
+            </div>
+            </div>
+{#        {{ form.as_p }}#}
+
+    </table>
+    </div>
+{% endfor %}
+<input type="button" value="Add More" id="add_more">
         <button type="submit">send</button>
     </form>
-
+</div>
 {% endblock %}
 {% block js %}
     <script>
+    $('#add_more').click(function() {
+        cloneMore('div.table:last', 'quoteitem_set');
+    });
+    function cloneMore(selector, type) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + type + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name').replace('-' + (total-1) + '-','-' + total + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+    });
+    newElement.find('label').each(function() {
+        var newFor = $(this).attr('for').replace('-' + (total-1) + '-','-' + total + '-');
+        $(this).attr('for', newFor);
+    });
+    total++;
+    $('#id_' + type + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement);
+}
     </script>
 {% endblock %}

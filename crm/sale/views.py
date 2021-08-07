@@ -8,7 +8,7 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_http_methods
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView
 from organization import models as org_model
 from . import models, forms
 from crm import settings
@@ -22,9 +22,9 @@ from django.forms import inlineformset_factory, modelformset_factory
 
 
 def quote_create(request):
+    """ create quote with quote item"""
     list_organization = org_model.Organization.objects.filter(user=request.user)
-    QuoteFormSet = inlineformset_factory(models.Quote, models.QuoteItem, fields=('product', 'qty', 'discount'),
-                                         max_num=1)
+    QuoteFormSet = inlineformset_factory(models.Quote, models.QuoteItem, fields=('product', 'qty', 'discount'), )
     formset = QuoteFormSet()
 
     form_instance = forms.QuoteItemForm()
@@ -33,30 +33,13 @@ def quote_create(request):
         organization = org_model.Organization.objects.get(pk=request.POST['organization'])
         create_quote_instance = models.Quote.objects.create(user=request.user, organization=organization)
         formset = QuoteFormSet(data=request.POST)
-        # for form in formset:
-            # models.QuoteItem.objects.create(
-            #     quote=create_quote_instance,
-            #     product=form.cleaned_data['product'],
-            #     qty=form.cleaned_data['qty'],
-            #     discount=form.cleaned_data['discount'],
-            #     price=form.cleaned_data['product'].price
-            # )
-            # a = 2
-            # price = form.instance.product
-            # form.instance.quote = create_quote_instance
-            # form.instance.price = price.price
-            # form.save()
-
-        quote_item_instance = forms.QuoteItemForm(data=request.POST)
-        organization = org_model.Organization.objects.get(pk=request.POST.get('organization'))
-        quote_instance = models.Quote.objects.create(user=request.user, organization=organization)
-        models.QuoteItem.objects.create(
-            quote=quote_instance,
-            product=quote_item_instance.cleaned_data["product"],
-            qty=quote_item_instance.cleaned_data['qty'],
-            discount=quote_item_instance.cleaned_data['discount'],
-            price=quote_item_instance.cleaned_data["product"].price
-        )
+        if formset.is_valid():
+            for form in formset:
+                if form.has_changed():
+                    form.save(commit=False)
+                    form.instance.quote = create_quote_instance
+                    form.instance.price = form.instance.product.price
+                    form.save()
         return redirect('sale:create-quote')
 
     return render(request, template_name='sale/quote_create.html',
@@ -64,8 +47,10 @@ def quote_create(request):
 
 
 class QuoteListView(LoginRequiredMixin, ListView):
+    """ list quote """
     model = models.Quote
     context_object_name = 'object'
+    paginate_by = 10
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -79,7 +64,12 @@ class QuoteDetailView(LoginRequiredMixin, DetailView):
     model = models.Quote
 
 
+class QuoteUpdateView(LoginRequiredMixin, UpdateView):
+    model = models.Quote
+
+
 class PrintQuoteDetailView(LoginRequiredMixin, DetailView):
+    """ create pdf of quote"""
     model = models.Quote
 
     def get(self, request, *args, **kwargs):
@@ -90,35 +80,26 @@ class PrintQuoteDetailView(LoginRequiredMixin, DetailView):
         return response
 
 
-def send_email(body, sender, email):
-    """
-    task for send email
-    """
-    try:
-        send_mail(_('فاکتور سفارش شما'), body, settings.EMAIL_HOST_USER, [email], fail_silently=False)
-        models.EmailHistory.objects.create(creator=get_user_model().objects.get(username=sender), email=email,
-                                           success=True)
-        return 'Email send successfully.'
-    except:
-        models.EmailHistory.objects.create(creator=get_user_model().objects.get(username=sender), email=email,
-                                           success=False)
-        return 'Email send failed.'
-
-
 @require_http_methods(["GET"])
 @login_required
 def send_email_view(request, pk):
+    """ send quote email """
     quote = models.Quote.objects.get(pk=pk, user=request.user)
+    # check quote owner send email
     if quote:
         body = render_to_string('sale/email_quote.txt', {'object': quote})
-        # body = 'test'
         email = quote.organization.email
         sender = request.user.username
-        send_email(body, sender, email)
-        messages.success(request, _('Send email request saved successfully.'))
+        try:
+            send_mail(_('فاکتور سفارش شما'), body, settings.EMAIL_HOST_USER, [email], fail_silently=False)
+            models.EmailHistory.objects.create(creator=get_user_model().objects.get(username=sender), email=email,
+                                               success=True)
+            messages.success(request, _('ایمل با موفقیت ارسال شد'))
+        except:
+            models.EmailHistory.objects.create(creator=get_user_model().objects.get(username=sender), email=email,
+                                               success=False)
+            messages.success(request, _('ارسال ایمل با خطا مواجه شد'))
         return redirect(reverse_lazy('sale:list-quote'))
     else:
         messages.error(request, _('Permission denied.'))
         return redirect(reverse_lazy('sale:list-quote'))
-
-

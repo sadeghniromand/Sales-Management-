@@ -1,5 +1,7 @@
 {% extends 'bases/sale_base.html' %}
 {% load tags %}
+{% block title %}لیست پیش فاکتور
+{% endblock %}
 {% block inbody %}
 
 
@@ -23,13 +25,18 @@
               <td>{{ quote.organization.company_name }}</td>
               <td>{{ quote.user }}</td>
               <td><a href="{% url 'sale:detail-quote' quote.id %}"><i class="fa fa-clipboard-list"></i></a> </td>
-              <td><a href="{% url 'sale:detail-pdf-quote' quote.id%}"><i class="fa fa-file-pdf"></i></a> <a href="{% url 'sale:send-email' quote.id %}"><i class="fa fa-envelope"></i></a> </td>
+              <td><a href="{% url 'sale:detail-pdf-quote' quote.id%}"><i class="fa fa-file-pdf"></i>
+              </a> <a href="{% url 'sale:send-email' quote.id %}"><i class="fa fa-envelope"></i></a>
+              <a href=""><i class="fa fa-pencil-alt"></i></a>
+              </td>
             </tr>
           {% empty %}
               <td colspan="6">موردی یافت نشد</td>
           {% endfor %}
           </tbody>
         </table>
+    {% include 'bases/pagination.html' %}
+
     </div>
 
 
