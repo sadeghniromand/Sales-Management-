@@ -17,6 +17,13 @@ class Quote(models.Model):
             sum += item.finished_price()
         return sum
 
+    def formated_date(self):
+        return self.data.strftime('%Y-%m-%d')
+
+    def __str__(self):
+        return f"{self.organization.company_name} شرکت " \
+               f"پیش فاتور{self.id} "
+
 
 class QuoteItem(models.Model):
     quote = models.ForeignKey('sale.Quote', on_delete=models.CASCADE)

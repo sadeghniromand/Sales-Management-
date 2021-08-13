@@ -5,17 +5,18 @@
 {% endblock %}
 {% block inbody %}
     <div class="container">
+
+        <div>
+            {% if form.errors %}
+                {{ form.errors }}
+            {% endif %}
+        </div>
     <form method="post">
         {% csrf_token %}
-        <label for="organization">Organization</label>
-        <select class="choices form-select"
-                name="organization" id="organization">
-            <optgroup label="Organization">
-                {% for organization in oragn %}
-                    <option value="{{ organization.id }}">{{ organization }}</option>
-                {% endfor %}
-            </optgroup>
-        </select>
+    <div class="form-group">
+    {{ form.organization.label_tag }}
+    {{ form.organization|add_class:"form-control" }}
+    </div>
 {{ formset.management_form }}
 {% for form in formset.forms %}
     <div class='table'>

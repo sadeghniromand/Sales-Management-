@@ -1,0 +1,17 @@
+{% extends 'bases/sale_base.html' %}
+{% block inbody %}
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="justify-content-center">
+                    <form method="post">{% csrf_token %}
+                        <p> آیا مطمئنید که میخواهید حذف کنید
+                            "{{ object }}"?</p>
+                        <button type="submit" value="Confirm" class="btn btn-success">بله</button>
+                        <button class="btn btn-danger"><a href="{% url 'sale:list-quote' %}">خیر</a> </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

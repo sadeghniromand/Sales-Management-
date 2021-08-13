@@ -1,0 +1,35 @@
+<table dir="rtl" style="border: 1px solid black">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">نام محصول</th>
+        <th scope="col">قیمت</th>
+        <th scope="col">تعداد</th>
+        <th scope="col">قیمت پایه</th>
+        <th scope="col">قیمت پایه با مالیات</th>
+        <th scope="col">تخفیف</th>
+        <th scope="col">قیمت تمام</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in object.quoteitem_set.all %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.qty }}</td>
+            <td>{{ item.total_price }}</td>
+            <td>{{ item.total_price_with_taxation }}</td>
+            <td>{{ item.get_discount }}</td>
+            <td>{{ item.finished_price }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th scope="row">#</th>
+        <td colspan="6">مجموع</td>
+        <td>{{ object.total_all_product_price }}</td>
+    </tr>
+    </tfoot>
+</table>

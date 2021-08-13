@@ -7,35 +7,38 @@
 
     <div class="container">
         <table class="table" style="margin-top: 20px">
-          <thead class="thead-dark">
+            <thead class="thead-dark">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">تاریخ</th>
-              <th scope="col">شرکت</th>
-              <th scope="col">کاربر</th>
-              <th scope="col">سفارش ها</th>
-              <th scope="col">عملیات</th>
+                <th scope="col">#</th>
+                <th scope="col">تاریخ</th>
+                <th scope="col">شرکت</th>
+                <th scope="col">کاربر</th>
+                <th scope="col">سفارش ها</th>
+                <th scope="col">عملیات</th>
             </tr>
-          </thead>
-          <tbody>
-          {% for quote in object %}
-            <tr>
-              <th scope="row">{{ forloop.counter }}</th>
-              <td>{{ quote.data|format_date }}</td>
-              <td>{{ quote.organization.company_name }}</td>
-              <td>{{ quote.user }}</td>
-              <td><a href="{% url 'sale:detail-quote' quote.id %}"><i class="fa fa-clipboard-list"></i></a> </td>
-              <td><a href="{% url 'sale:detail-pdf-quote' quote.id%}"><i class="fa fa-file-pdf"></i>
-              </a> <a href="{% url 'sale:send-email' quote.id %}"><i class="fa fa-envelope"></i></a>
-              <a href=""><i class="fa fa-pencil-alt"></i></a>
-              </td>
-            </tr>
-          {% empty %}
-              <td colspan="6">موردی یافت نشد</td>
-          {% endfor %}
-          </tbody>
+            </thead>
+            <tbody>
+            {% for quote in object %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ quote.data|format_date }}</td>
+                    <td>{{ quote.organization.company_name }}</td>
+                    <td>{{ quote.user }}</td>
+                    <td><a href="{% url 'sale:detail-quote' quote.id %}"><i class="fa fa-clipboard-list"></i></a></td>
+                    <td><a href="{% url 'sale:detail-pdf-quote' quote.id %}"><i class="fa fa-file-pdf"></i>
+                        {% if quote.user == request.user %}</a>
+                            <a href="{% url 'sale:send-email' quote.id %}"><i class="fa fa-envelope"></i></a>
+                            <a href="{% url 'sale:update-quote' quote.id %}"><i class="fa fa-pencil-alt"></i></a>
+                            <a href="{% url 'sale:delete-quote' quote.id %}"><i
+                                    class="fa fa-trash-alt"></i></a> {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <td colspan="6">موردی یافت نشد</td>
+            {% endfor %}
+            </tbody>
         </table>
-    {% include 'bases/pagination.html' %}
+        {% include 'bases/pagination.html' %}
 
     </div>
 
