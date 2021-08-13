@@ -24,6 +24,8 @@
                 <li class="list-group-item"><a href="{% url 'organization:detail-organ' comp.id %}"> مشخصات کامل </a></li>
               </ul>
             </div>
+                {% empty %}
+                <div class="text-center">موردی برای مشاهده پیدا نشد</div>
             {% endfor %}
         </div>
     </div>

@@ -18,13 +18,25 @@ from django.contrib import admin
 from django.urls import path, include
 from organization.views import home
 from . import settings
+from rest_framework import routers
+from organization import views
+from product import views as p_views
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+router = routers.DefaultRouter()
+router.register(r'organization', views.OrganizationViewSet)
+router.register(r'product', p_views.OrganizationProductAPIView)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('organization/', include('organization.urls')),
     path('product/', include('product.urls')),
+    path('expert/', include('expert.urls')),
     path('sale/', include('sale.urls')),
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/', include(router.urls)),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

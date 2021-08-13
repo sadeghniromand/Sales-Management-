@@ -8,8 +8,8 @@
                     <div class="card text-end shadow-lg p-3 mb-5 bg-white rounded col-4" style="width: 18rem; margin: 20px">
                           <img class="card-img-top" src="{{ obj.img_catalog.url }}" alt="Card image cap">
                           <div class="card-body">
-                            <h5 class="card-title">{{ obj.name }}</h5>
-                            <p class="card-text"  style="height: 80px;overflow: auto">{{ obj.description }}</p>
+                            <h5 class="card-title"><a href="{% url 'product:detail-product' obj.id %}" class="text-decoration-none"> {{ obj.name }} </a></h5>
+                            <p class="card-text"  style="height: 80px;">{{ obj.description|truncatewords:10 }}</p>
                           </div>
                           <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{ obj.price }} ریال </li>
@@ -22,7 +22,7 @@
                                  {% endif %}
                             : مالیات</li>
                             <li class="list-group-item" style="height: 50px;overflow: auto">
-                                {% for product in obj.product_suggestion.all %}
+                                {% for product in obj.can_be_used_for.all %}
                                     {{ product.name }}
                                 {% empty %}
                                     محصولی انتخاب نشده است

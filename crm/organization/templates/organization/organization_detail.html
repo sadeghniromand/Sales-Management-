@@ -4,7 +4,7 @@
 {% block inbody %}
     <div class="container">
         {% if object.user == request.user %}<button class="btn btn-light" style="margin: 10px"><a href="{% url 'organization:update-organ' object.id %}"> ویرایش</a></button>{% endif %}
-        <button class="btn btn-light" style="margin: 10px"><a href="{% url 'sale:create-quote' %}">  صدور پیش فاکتور</a></button>
+        <button class="btn btn-light" style="margin: 10px"><a href="{% url 'organization:list-organ-quote' object.id %}">  لیست فاکتور</a></button>
         <div class="container" style="border: 1px solid">
             <div class="row justify-content-start" style="margin-top: 10px">
                 <div class="text-center"><h4> اطلاعات شرکت </h4></div>
@@ -78,6 +78,7 @@
                           <th scope="col">کاربر</th>
                           <th scope="col">تاریخ شروع</th>
                           <th scope="col">تاریخ اخرین تغییرات</th>
+                          <th scope="col">موضوع</th>
                           <th scope="col">وضعیت</th>
                           <th scope="col">گزارش</th>
                         </tr>
@@ -89,8 +90,9 @@
                             <td>{{ descrip.user }}</td>
                             <td>{{ descrip.date }}</td>
                             <td>{{ descrip.last_data }}</td>
+                            <td>{{ descrip.title }}</td>
                             <td>{{ descrip.get_status_display }}</td>
-                            <td><a href="{% url 'organization:update-followup' descrip.id %}"> گزارش </a></td>
+                            {% if descrip.user == request.user %}<td><a href="{% url 'organization:update-followup' descrip.id %}"> گزارش </a></td>{% endif %}
                         </tr>
                      {% empty %}
                          <tr>

@@ -23,9 +23,40 @@
                         {{ form.description|add_class:"form-control" }}
                     </div>
                 </div>
-            <button type="submit" class="btn btn-primary">save</button>
-    </form>
+
+            </form>
+            <button class="btn btn-primary" id="follow">ذخیره</button>
         </div>
     </div>
 
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            $("#follow").click(function () {
+                var title = $("#id_title").val()
+                var status_follow = $('#id_status').find(":selected").val();
+                var descrption = $("#id_description").val()
+                var url = "{{ request.path }}"
+
+                    $.ajax({
+                        method: "POST",
+                        url: url,
+                        data:{
+                            title:title,
+                            status:status_follow,
+                            description:descrption
+                        },
+                        success(response){
+                            alert("عملیات با موفقیت انجام شد")
+                        },
+                        error(reqsponse){
+                            alert("عملیات با خطا رو به رو شد.")
+                        }
+                    })
+            })
+        })
+
+    </script>
 {% endblock %}

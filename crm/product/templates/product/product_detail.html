@@ -1,0 +1,22 @@
+{% extends 'bases/product_base.html' %}
+{% block inbody %}
+    <div class="container">
+        <div class="container">
+            <div class="align-items-center text-center" style="margin-top: 30px">
+                <img src="{{ object.img_catalog.url }}" width="400px" height="250px">
+                <h1>{{ object.name }}</h1>
+                <h6>{{ object.description }}</h6>
+                <h6>: قابل استفاده برای</h6>
+
+                    {% for product in object.can_be_used_for.all %}
+                        {{ product }}
+                    {% endfor %}
+                <h6>: قیمت</h6>
+                {{ object.price }}
+                <div><button class="btn btn-link"><a href="{% url 'product:update-product' object.id %}">تغییر</a> </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
