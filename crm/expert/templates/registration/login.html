@@ -1,0 +1,30 @@
+{% extends 'bases/base.html' %}
+{% load widget_tweaks %}
+{% block body %}
+    <div class="container">
+        <div class="container">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-6">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            {{ form.username.label_tag }}
+                            {{ form.username|add_class:"form-control" }}
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-6">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            {{ form.password.label_tag }}
+                            {{ form.password|add_class:"form-control" }}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary rounded-3">ورود</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
